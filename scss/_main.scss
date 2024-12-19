@@ -344,7 +344,7 @@
 		line-height: 1.5rem;
 		}
 	.furniture-list {
-		margin: 0 0 0.75rem;
+		margin: 0 0 1.375rem;
 		}
 	&__bottom-col {
 		display: flex;
@@ -961,6 +961,13 @@
 		&.hidden {
 			display: none;
 			}
+		}
+	}
+
+/* map-section */
+.map-section {
+	.title {
+		display: none;
 		}
 	}
 
