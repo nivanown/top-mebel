@@ -1,0 +1,13 @@
+/* fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+@font-face {
+  font-family: 'Good Timing';
+  src: local('Good Timing Bold'), local('Good-Timing-Bold'),
+      url('../fonts/Good-Timing-Bold.eot?#iefix') format('embedded-opentype'),
+      url('../fonts/Good-Timing-Bold.woff2') format('woff2'),
+      url('../fonts/Good-Timing-Bold.woff') format('woff'),
+      url('../fonts/Good-Timing-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  }
