@@ -185,10 +185,6 @@ body.scroll-none {
   overflow: hidden;
 }
 
-body.m-scroll-none {
-  overflow: hidden;
-}
-
 /* p */
 p {
   font-size: 1.125rem;
@@ -2032,6 +2028,10 @@ textarea::-webkit-input-placeholder {
   /* html */
   html {
     font-size: 4.45vw;
+  }
+  /* m-scroll-none */
+  body.m-scroll-none {
+    overflow: hidden;
   }
   /* header */
   .header__top-col {
