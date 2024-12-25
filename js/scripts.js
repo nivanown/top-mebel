@@ -142,19 +142,22 @@ const allLink = document.querySelector('.info-widget__all-link');
 const hideLink = document.querySelector('.info-widget__hide-link');
 const textWidget = document.querySelector('.info-widget__text');
 
-// Добавляем обработчик на клик по allLink
-allLink.addEventListener('click', () => {
-    allLink.classList.add('hidden'); // Добавляем класс hidden к allLink
-    textWidget.classList.add('show'); // Добавляем класс show к textWidget
-    hideLink.classList.remove('hidden'); // Убираем класс hidden у hideLink
-});
+// Проверяем, существуют ли элементы на странице
+if (allLink && hideLink && textWidget) {
+    // Добавляем обработчик на клик по allLink
+    allLink.addEventListener('click', () => {
+        allLink.classList.add('hidden'); // Добавляем класс hidden к allLink
+        textWidget.classList.add('show'); // Добавляем класс show к textWidget
+        hideLink.classList.remove('hidden'); // Убираем класс hidden у hideLink
+    });
 
-// Добавляем обработчик на клик по hideLink
-hideLink.addEventListener('click', () => {
-    allLink.classList.remove('hidden'); // Убираем класс hidden у allLink
-    textWidget.classList.remove('show'); // Убираем класс show у textWidget
-    hideLink.classList.add('hidden'); // Добавляем класс hidden к hideLink
-});
+    // Добавляем обработчик на клик по hideLink
+    hideLink.addEventListener('click', () => {
+        allLink.classList.remove('hidden'); // Убираем класс hidden у allLink
+        textWidget.classList.remove('show'); // Убираем класс show у textWidget
+        hideLink.classList.add('hidden'); // Добавляем класс hidden к hideLink
+    });
+}
 
 /*- map -*/
 ymaps.ready(init);
@@ -275,4 +278,219 @@ document.addEventListener('DOMContentLoaded', () => {
         body.classList.remove('m-scroll-none');
         mobileMenu.classList.remove('show');
     });
+});
+
+/*- select -*/
+const selects = document.querySelectorAll('.select');
+const inputs = document.querySelectorAll('.select-hidden-form input'); // Получаем все input
+
+// Функция для закрытия всех open/show классов
+function closeAllSelects(exceptSelect) {
+    selects.forEach(select => {
+        if (select !== exceptSelect) {
+            const selectText = select.querySelector('.select__text');
+            const selectDropdown = select.querySelector('.select__dropdown');
+            select.classList.remove('open'); // Удаляем класс open у select
+            selectText.classList.remove('open');
+            selectDropdown.classList.remove('show');
+        }
+    });
+}
+
+// Функция для переноса данных из select__text в input
+function syncSelectWithInput() {
+    selects.forEach((select, index) => {
+        const input = inputs[index]; // Соответствующий input
+        const selectText = select.querySelector('.select__text');
+
+        // Перенос текста в input
+        if (input && selectText) {
+            input.value = selectText.textContent;
+        }
+    });
+}
+
+// Обрабатываем каждый select
+selects.forEach(select => {
+    const selectText = select.querySelector('.select__text');
+    const selectDropdown = select.querySelector('.select__dropdown');
+    const listItems = select.querySelectorAll('.select__dropdown li');
+
+    // Функция для переключения классов на .select и .select__dropdown
+    selectText.addEventListener('click', (event) => {
+        event.stopPropagation(); // Останавливаем всплытие, чтобы клик по select не закрывал его
+
+        // Если меню открыто, закрываем его, если нет — открываем
+        const isOpen = select.classList.contains('open');
+        closeAllSelects(select); // Закрываем все другие select
+        if (!isOpen) {
+            select.classList.add('open'); // Добавляем класс open к select
+            selectText.classList.add('open');
+            selectDropdown.classList.add('show');
+        } else {
+            select.classList.remove('open'); // Удаляем класс open у select
+            selectText.classList.remove('open');
+            selectDropdown.classList.remove('show');
+        }
+    });
+
+    // Функция для обновления текста и класса active на <li>
+    listItems.forEach(item => {
+        item.addEventListener('click', (event) => {
+            event.stopPropagation(); // Останавливаем всплытие, чтобы клик по <li> не закрывал select
+
+            // Убираем класс active со всех элементов <li>
+            listItems.forEach(li => li.classList.remove('active'));
+
+            // Добавляем класс active к текущему выбранному элементу
+            item.classList.add('active');
+
+            // Обновляем текст в .select__text
+            selectText.textContent = item.textContent;
+
+            // Перенос данных в input
+            syncSelectWithInput();
+
+            // Закрываем выпадающее меню
+            select.classList.remove('open'); // Удаляем класс open у select
+            selectText.classList.remove('open');
+            selectDropdown.classList.remove('show');
+        });
+    });
+
+    // Закрытие меню при клике на любую область страницы, кроме текущего select
+    document.addEventListener('click', (event) => {
+        if (!select.contains(event.target)) {
+            select.classList.remove('open'); // Удаляем класс open у select
+            selectText.classList.remove('open');
+            selectDropdown.classList.remove('show');
+        }
+    });
+});
+
+// Инициализируем начальные значения input
+syncSelectWithInput();
+
+/*- catalog -*/
+document.addEventListener("DOMContentLoaded", () => {
+    const catalog = document.getElementById("catalog");
+    const catalogBtn = document.getElementById("catalog-btn");
+
+    // Проверяем, существуют ли элементы с указанными id
+    if (!catalog || !catalogBtn) {
+        return; // Выходим из функции, если одного из блоков нет
+    }
+
+    const items = catalog.querySelectorAll(".furniture__item");
+
+    const desktopVisibleCount = 16; // Количество элементов, которые изначально видны на десктопе
+    const desktopLoadMoreCount = 4; // Количество элементов, которые показываются на десктопе при каждом клике
+    const mobileVisibleCount = 4; // Количество элементов, которые изначально видны на мобильной версии
+    const mobileLoadMoreCount = 4; // Количество элементов, которые показываются на мобильной версии при каждом клике
+
+    const isMobile = () => window.innerWidth <= 767;
+
+    // Функция для скрытия/показа элементов в зависимости от устройства
+    const initializeItems = () => {
+        const visibleCount = isMobile() ? mobileVisibleCount : desktopVisibleCount;
+
+        items.forEach((item, index) => {
+            if (index >= visibleCount) {
+                item.classList.add("hidden");
+            } else {
+                item.classList.remove("hidden");
+            }
+        });
+
+        // Скрываем кнопку, если элементов меньше или равно видимому количеству
+        if (items.length <= visibleCount) {
+            catalogBtn.classList.add("hidden");
+        } else {
+            catalogBtn.classList.remove("hidden");
+        }
+    };
+
+    // Функция для обработки кликов на кнопку
+    const handleButtonClick = () => {
+        const loadMoreCount = isMobile() ? mobileLoadMoreCount : desktopLoadMoreCount;
+        let hiddenItems = Array.from(items).filter(item => item.classList.contains("hidden"));
+
+        // Показываем следующую партию
+        hiddenItems.slice(0, loadMoreCount).forEach(item => {
+            item.classList.remove("hidden");
+        });
+
+        // Проверяем, если больше скрытых элементов нет, скрываем кнопку
+        if (hiddenItems.length <= loadMoreCount) {
+            catalogBtn.classList.add("hidden");
+        }
+    };
+
+    // Инициализация элементов при загрузке страницы
+    initializeItems();
+
+    // Добавляем обработчик клика по кнопке
+    catalogBtn.addEventListener("click", handleButtonClick);
+
+    // Добавляем обработчик для изменения размера окна
+    window.addEventListener("resize", () => {
+        initializeItems();
+    });
+});
+
+/*- furniture-slider -*/
+var swiper = new Swiper(".furniture-slider__small", {
+    loop: false,
+    spaceBetween: 10,
+    slidesPerView: "auto",
+    freeMode: true,
+    watchSlidesProgress: true,
+});
+
+var swiper2 = new Swiper(".furniture-slider__big", {
+    loop: false,
+    spaceBetween: 10,
+    thumbs: {
+        swiper: swiper,
+    },
+});
+
+/*- related-slider -*/
+var swiper = new Swiper(".related-slider .furniture", {
+    autoplay: false,
+    autoHeight: true,
+    loop: false,
+    slidesPerView: 4,
+    slidesPerGroup: 1,
+    spaceBetween: false,
+    pagination: {
+        el: ".related-slider .swiper-pagination",
+        clickable: true,
+    },
+    navigation: {
+        nextEl: ".related-slider .swiper-button-next",
+        prevEl: ".related-slider .swiper-button-prev",
+    },
+    breakpoints: {
+    0: {
+        slidesPerView: "auto",
+        slidesPerGroup: true,
+        spaceBetween: false,
+        },
+    768: {
+        slidesPerView: 4,
+        slidesPerGroup: 1,
+        spaceBetween: false,
+        },
+    },
+});
+
+/*- fancybox -*/
+Fancybox.bind("[data-fancybox='gallery']", {
+    Thumbs: {
+        autoStart: true, // Автоматически отображать превью
+    },
+    Toolbar: {
+        display: ["zoom", "close"], // Настройка панели инструментов
+    },
 });
