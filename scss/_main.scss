@@ -1131,8 +1131,10 @@
 		text-transform: none;
 		}
 	.other-articles {
+		position: sticky;
 		flex-shrink: 0;
 		width: 17.875rem;
+		top: 0;
 		}
 	&__bottom-panel {
 		display: flex;
@@ -1385,6 +1387,8 @@
 		font-weight: var(--secondary-font-weight);
 		}
 	.company-nav {
+		position: sticky;
+		top: 0;
 		flex-shrink: 0;
 		width: 17.875rem;
 		}

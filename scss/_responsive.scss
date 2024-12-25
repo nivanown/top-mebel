@@ -46,6 +46,11 @@ body.m-scroll-none {
   overflow: hidden;
   }
 
+/* wrapper */
+.wrapper {
+  overflow: hidden;
+  }
+
 /* header */
 .header {
 	&__top-col {
@@ -494,6 +499,7 @@ body.m-scroll-none {
 		gap: 2rem 0;
 		}
 	.other-articles {
+		position: static;
 		width: inherit;
 		margin: 0 -1.25rem;
 		padding-bottom: 5rem;
@@ -546,6 +552,7 @@ body.m-scroll-none {
 			}
 		}
 	.company-nav {
+		position: static;
 		width: 100%;
 		}
 	}
