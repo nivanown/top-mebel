@@ -1025,6 +1025,9 @@ textarea::-webkit-input-placeholder {
 }
 
 /* offers-section */
+.offers-section {
+  overflow: hidden;
+}
 .offers-section__in {
   margin: 0 -5rem;
   padding: 3.75rem 5rem 3.125rem;
