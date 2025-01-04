@@ -35,8 +35,28 @@
 	display: flex;
 	align-items: center;
 	gap: 0 1rem;
-	img {
+	&__icon {
+		position: relative;
 		width: 1.5rem;
+		&:hover {
+			img {
+				opacity: 0;
+				+ img {
+					opacity: 1;
+					}
+				}
+			}
+		img {
+			width: 100%;
+			transition: .3s opacity;
+			+ img {
+				position: absolute;
+				top: 0;
+				left: 0;
+				z-index: 3;
+				opacity: 0;
+				}
+			}
 		}
 	&__text {
 		display: block;
@@ -50,17 +70,39 @@
 
 /* working-hours */
 .working-hours {
+	position: relative;
 	display: flex;
 	align-items: center;
 	gap: 0 0.5rem;
+	&:hover {
+		img {
+			opacity: 0;
+			+ img {
+				opacity: 1;
+				}
+			}
+		.working-hours__text {
+			color: var(--eight-text-color);
+			}
+		}
 	img {
 		width: 1.5rem;
+		transition: .3s opacity;
+		+ img {
+			position: absolute;
+			width: 1.5rem;
+			top: 0;
+			left: 0;
+			z-index: 3;
+			opacity: 0;
+			}
 		}
 	&__text {
 		display: block;
 		color: var(--secondary-text-color);
 		font-size: 1rem;
 		line-height: 1.5rem;
+		transition: .3s color;
 		}
 	}
 

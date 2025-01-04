@@ -38,7 +38,7 @@ html {
 
 /* html */
 html {
-	font-size: 4.45vw;
+	font-size: 3.7vw;
 	}
 
 /* m-scroll-none */
@@ -342,6 +342,9 @@ body.m-scroll-none {
 	.tags {
 		width: inherit;
 		}
+	.select {
+		width: 100%;
+		}
 	}
 
 /* tags */
@@ -374,6 +377,12 @@ body.m-scroll-none {
 .select {
 	width: 100%;
 	min-width: inherit;
+	}
+
+.furniture {
+	&__zoom {
+		display: none;
+		}
 	}
 
 /* footer */
