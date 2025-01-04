@@ -215,9 +215,13 @@ document.addEventListener("DOMContentLoaded", () => {
     // Обработка закрытия модальных окон
     document.querySelectorAll(".form-modal").forEach(modal => {
         modal.addEventListener("click", (e) => {
+            const modalIn = modal.querySelector(".form-modal__in");
+
+            // Закрытие при клике на кнопке закрытия или на оверлее
             if (
                 e.target.classList.contains("form-modal__close-btn") || 
-                e.target.classList.contains("form-modal__overlay")
+                e.target.classList.contains("form-modal__overlay") || 
+                (modalIn && !modalIn.contains(e.target)) // Клик вне form-modal__in
             ) {
                 modal.classList.remove("show");
                 document.body.classList.remove("scroll-none");
@@ -231,7 +235,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // При клике на data-furniture-modal
     document.querySelectorAll("[data-furniture-modal]").forEach(trigger => {
         trigger.addEventListener("click", (e) => {
-            // Если data-modal находится на ссылке (a href), предотвращаем переход по ссылке
+            // Если data-furniture-modal находится на ссылке (a href), предотвращаем переход по ссылке
             if (trigger.tagName.toLowerCase() === "a") {
                 e.preventDefault();
             }
@@ -249,9 +253,13 @@ document.addEventListener("DOMContentLoaded", () => {
     // Обработка закрытия модальных окон
     document.querySelectorAll(".furniture-modal").forEach(modal => {
         modal.addEventListener("click", (e) => {
+            const modalIn = modal.querySelector(".furniture-modal__in");
+
+            // Закрытие при клике на кнопке закрытия, оверлее или вне furniture-modal__in
             if (
                 e.target.classList.contains("furniture-modal__close-btn") || 
-                e.target.classList.contains("furniture-modal")
+                e.target.classList.contains("furniture-modal") || 
+                (modalIn && !modalIn.contains(e.target)) // Клик вне furniture-modal__in
             ) {
                 modal.classList.remove("show");
                 document.body.classList.remove("scroll-none");
@@ -483,6 +491,32 @@ var swiper = new Swiper(".related-slider .furniture", {
         spaceBetween: false,
         },
     },
+});
+
+/*- share -*/
+document.addEventListener("DOMContentLoaded", () => {
+    const icon = document.querySelector(".share__icon");
+    const dropdown = document.querySelector(".share__dropdown");
+
+    // Проверяем, что оба элемента существуют на странице
+    if (icon && dropdown) {
+        // Функция для переключения класса show
+        function toggleDropdown(event) {
+            event.stopPropagation(); // Останавливаем всплытие события, чтобы клик на иконке не закрывал меню
+            dropdown.classList.toggle("show");
+        }
+
+        // Функция для закрытия dropdown при клике вне панели
+        function closeDropdown(event) {
+            if (!dropdown.contains(event.target) && !icon.contains(event.target)) {
+                dropdown.classList.remove("show");
+            }
+        }
+
+        // Добавляем обработчики событий
+        icon.addEventListener("click", toggleDropdown);
+        document.addEventListener("click", closeDropdown);
+    }
 });
 
 /*- fancybox -*/
