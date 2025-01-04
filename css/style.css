@@ -4101,4 +4101,13 @@ textarea::-webkit-input-placeholder {
   .error-404 p br {
     display: none;
   }
+  /* share */
+  .share__dropdown {
+    left: auto;
+    right: 0;
+    transform: inherit;
+  }
+  .share__dropdown:after {
+    left: 90%;
+  }
 }
