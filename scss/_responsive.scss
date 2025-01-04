@@ -722,4 +722,16 @@ body.m-scroll-none {
 		}
 	}
 
+/* share */
+.share {
+	&__dropdown {
+		left: auto;
+		right: 0;
+		transform: inherit;
+		&:after {
+			left: 90%;
+			}
+		}
+	}
+
 }
