@@ -4,7 +4,7 @@ var swiper = new Swiper(".offers-slider", {
     autoHeight: true,
     loop: false,
 	slidesPerView: 3,
-	slidesPerGroup: 1,
+	slidesPerGroup: 3,
 	spaceBetween: false,
 	pagination: {
 		el: ".swiper-pagination",
@@ -18,7 +18,7 @@ var swiper = new Swiper(".offers-slider", {
         },
     768: {
         slidesPerView: 3,
-        slidesPerGroup: 1,
+        slidesPerGroup: 3,
         spaceBetween: false,
         },
     },
@@ -97,7 +97,7 @@ var swiper = new Swiper(".reviews-slider__in", {
     autoHeight: true,
     loop: false,
 	slidesPerView: 4,
-	slidesPerGroup: 1,
+	slidesPerGroup: 4,
 	spaceBetween: false,
 	pagination: {
 		el: ".swiper-pagination",
@@ -115,7 +115,7 @@ var swiper = new Swiper(".reviews-slider__in", {
         },
     768: {
         slidesPerView: 4,
-        slidesPerGroup: 1,
+        slidesPerGroup: 4,
         spaceBetween: false,
         },
     },
@@ -469,7 +469,7 @@ var swiper = new Swiper(".related-slider .furniture", {
     autoHeight: true,
     loop: false,
     slidesPerView: 4,
-    slidesPerGroup: 1,
+    slidesPerGroup: 4,
     spaceBetween: false,
     pagination: {
         el: ".related-slider .swiper-pagination",
@@ -487,7 +487,7 @@ var swiper = new Swiper(".related-slider .furniture", {
         },
     768: {
         slidesPerView: 4,
-        slidesPerGroup: 1,
+        slidesPerGroup: 4,
         spaceBetween: false,
         },
     },
@@ -528,3 +528,20 @@ Fancybox.bind("[data-fancybox='gallery']", {
         display: ["zoom", "close"], // Настройка панели инструментов
     },
 });
+
+/*- name-field -*/
+document.addEventListener("DOMContentLoaded", () => {
+    const nameFields = document.querySelectorAll(".name-field");
+
+    if (nameFields.length > 0) {
+        nameFields.forEach((nameField) => {
+            nameField.addEventListener("input", (event) => {
+                // Удаляем все символы, которые не являются буквами
+                nameField.value = nameField.value.replace(/[^a-zA-Zа-яА-ЯёЁ\s]/g, '');
+            });
+        });
+    } else {
+        console.info("Элементы .name-field отсутствуют на странице.");
+    }
+});
+
